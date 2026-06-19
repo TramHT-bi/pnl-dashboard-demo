@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P&L Dashboard Demo - Executive Summary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      .chart-unit {
+        margin: 4px 0 0;
+        color: var(--navy);
+        font-size: 12px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-shell">
+      <aside class="sidebar" aria-label="Dashboard navigation">
+        <div class="brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          </div>
+          <div>
+            <p class="brand-title">P&amp;L Dashboard</p>
+            <p class="brand-subtitle">Demo</p>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <a class="nav-item active" href="#" aria-current="page" data-page="executive">
+            <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
+            Executive Summary
+          </a>
+          <a class="nav-item" href="#" data-page="pnl">
+            <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+            P&amp;L Statement
+          </a>
+          <a class="nav-item" href="#" data-page="revenue">
+            <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i>
+            Revenue Analysis
+          </a>
+          <a class="nav-item" href="#" data-page="cost">
+            <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+            Cost Analysis
+          </a>
+          <a class="nav-item" href="#" data-page="profit">
+            <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+            Profitability Analysis
+          </a>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div class="title-block">
+            <h1 id="pageTitle">EXECUTIVE SUMMARY</h1>
+          </div>
+
+          <section class="filter-panel" aria-label="Dashboard filters">
+            <label class="filter-control">
+              <span>Year</span>
+              <select id="yearFilter"></select>
+            </label>
+            <label class="filter-control">
+              <span>Quarter</span>
+              <select id="quarterFilter">
+                <option value="All">All</option>
+                <option value="1">Q1</option>
+                <option value="2">Q2</option>
+                <option value="3">Q3</option>
+                <option value="4">Q4</option>
+              </select>
+            </label>
+            <label class="filter-control">
+              <span>Month</span>
+              <select id="monthFilter"></select>
+            </label>
+            <label class="filter-control">
+              <span>Region</span>
+              <select id="regionFilter"></select>
+            </label>
+            <label class="filter-control">
+              <span>Channel</span>
+              <select id="channelFilter"></select>
+            </label>
+            <label class="filter-control">
+              <span>Product</span>
+              <select id="productFilter"></select>
+            </label>
+            <label class="filter-control">
+              <span>Customer Group</span>
+              <select id="customerGroupFilter"></select>
+            </label>
+            <label class="filter-control account-filter" id="accountFilterControl">
+              <span>Account</span>
+              <select id="accountFilter"></select>
+            </label>
+            <div class="filter-control timeframe-control">
+         
+              <span>Timeframe</span>
+              <div class="timeframe-group" role="group" aria-label="Timeframe">
+                <button class="timeframe-button active" type="button" data-timeframe="MTD">MTD</button>
+                <button class="timeframe-button" type="button" data-timeframe="QTD">QTD</button>
+                <button class="timeframe-button" type="button" data-timeframe="YTD">YTD</button>
+              </div>
+            </div>
+          </section>
+        </header>
+
+        <section class="kpi-grid" id="kpiGrid" aria-label="Executive KPI cards"></section>
+
+        <section class="dashboard-page active" id="executivePage" data-page-panel="executive">
+        <section class="section-block">
+          <div class="section-heading">
+            <!-- <h2>Trends</h2> -->
+          </div>
+          <div class="chart-grid two-columns">
+            <article class="chart-card">
+              <h3>REVENUE TREND</h3>
+              <p class="chart-unit">Unit: Billion (VND)</p>
+              <div class="chart-frame"><canvas id="revenueTrendChart"></canvas></div>
+            </article>
+            <article class="chart-card">
+              <h3>GROSS PROFIT TREND</h3>
+              <p class="chart-unit">Unit: Billion (VND) / %</p>
+              <div class="chart-frame"><canvas id="grossProfitTrendChart"></canvas></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <!-- <h2>Trends</h2> -->
+          </div>
+          <div class="chart-grid two-columns">
+            <article class="chart-card">
+              <h3>ACTUAL REVENUE VS PLAN REVENUE</h3>
+              <p class="chart-unit">Unit: Billion (VND)</p>
+              <div class="chart-frame"><canvas id="actualVsPlanChart"></canvas></div>
+            </article>
+            <article class="chart-card">
+              <h3>COMPONENT BREAKDOWN</h3>
+              <p class="chart-unit">Unit: Billion (VND)</p>
+              <div class="chart-frame"><canvas id="componentBreakdownChart"></canvas></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <!-- <h2>Distribution</h2> -->
+          </div>
+          <div class="chart-grid three-columns">
+            <article class="chart-card">
+              <h3>TOP 10 PRODUCT BY REVENUE</h3>
+              <p class="chart-unit">Unit: Billion (VND)</p>
+              <div class="chart-frame"><canvas id="topProductRevenueChart"></canvas></div>
+            </article>
+            <article class="chart-card">
+              <h3>REVENUE BY REGION</h3>
+              <p class="chart-unit">Unit: %</p>
+              <div class="chart-frame"><canvas id="revenueByRegionChart"></canvas></div>
+            </article>
+            <article class="chart-card">
+              <h3>REVENUE BY CHANNEL</h3>
+              <p class="chart-unit">Unit: %</p>
+              <div class="chart-frame"><canvas id="revenueByChannelChart"></canvas></div>
+            </article>
+          </div>
+        </section>
+        </section>
+
+        <section class="dashboard-page" id="pnlPage" data-page-panel="pnl">
+          <section class="section-block">
+            <div class="matrix-grid">
+              <article class="matrix-card">
+                <div class="matrix-header">
+                  <div>
+                    <h3>CATEGORIES / ACCOUNT BY MONTH</h3>
+                    <p class="chart-unit">Unit: Billion VND / %</p>
+                  </div>
+                </div>
+                <div class="matrix-scroll">
+                  <table class="pnl-matrix" id="pnlMonthlyMatrix" aria-label="Categories and account by month"></table>
+                </div>
+              </article>
+
+              <article class="matrix-card">
+                <div class="matrix-header">
+                  <div>
+                    <h3>CATEGORIES / ACCOUNT COMPARISON</h3>
+                    <p class="chart-unit">Unit: Billion VND / %</p>
+                  </div>
+                </div>
+                <div class="matrix-scroll">
+                  <table class="pnl-matrix" id="pnlComparisonMatrix" aria-label="Categories and account comparison"></table>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="dashboard-page" id="revenuePage" data-page-panel="revenue">
+          <section class="section-block">
+            <div class="chart-grid two-columns">
+              <article class="chart-card">
+                <h3>ACTUAL REVENUE vs PLAN REVENUE vs ACHIEVEMENT %</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="chart-frame"><canvas id="revenueActualPlanAchievementChart"></canvas></div>
+              </article>
+              <article class="chart-card">
+                <h3>REVENUE vs LY vs YOY %</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="chart-frame"><canvas id="revenueVsLyYoyChart"></canvas></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-block">
+            <div class="chart-grid two-columns">
+              <article class="chart-card revenue-analysis-card">
+                <h3>REVENUE BY REGION</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout">
+                  <div class="revenue-donut-frame"><canvas id="revenueAnalysisRegionChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="revenueRegionTable" aria-label="Revenue by region details"></table>
+                  </div>
+                </div>
+              </article>
+              <article class="chart-card revenue-analysis-card">
+                <h3>REVENUE BY CHANNEL</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout">
+                  <div class="revenue-donut-frame"><canvas id="revenueAnalysisChannelChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="revenueChannelTable" aria-label="Revenue by channel details"></table>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-block">
+            <div class="chart-grid two-columns">
+              <article class="chart-card revenue-analysis-card">
+                <h3>REVENUE BY TOP 10 PRODUCTS</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout wide-chart">
+                  <div class="revenue-bar-frame"><canvas id="revenueTopProductChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="revenueProductTable" aria-label="Top product revenue details"></table>
+                  </div>
+                </div>
+              </article>
+              <article class="chart-card revenue-analysis-card">
+                <h3>REVENUE BY CUSTOMER GROUP</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout">
+                  <div class="revenue-donut-frame"><canvas id="revenueCustomerGroupChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="revenueCustomerGroupTable" aria-label="Revenue by customer group details"></table>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="dashboard-page" id="costPage" data-page-panel="cost">
+          <section class="section-block">
+            <div class="cost-analysis-grid">
+              <div class="cost-chart-stack">
+                <article class="chart-card">
+                  <h3>MONTHLY COST TREND</h3>
+                  <p class="chart-unit">Unit: Billion VND</p>
+                  <div class="chart-frame monthly-cost-trend-frame">
+                     <canvas id="monthlyCostTrendChart"></canvas>
+                  </div>
+                </article>
+
+                <article class="chart-card">
+                  <h3>COST STRUCTURE BY MONTH</h3>
+                  <p class="chart-unit">Unit: %</p>
+                  <div class="chart-frame cost-structure-frame">
+                    <canvas id="costStructureByMonthChart"></canvas>
+                  </div>
+                </article>
+              </div>
+
+              <article class="matrix-card cost-matrix-card">
+                <div class="matrix-header">
+                  <div>
+                    <h3>COST VARIANCE MATRIX</h3>
+                    <p class="chart-unit">Unit: Billion VND / %</p>
+                  </div>
+                </div>
+                <div class="matrix-scroll">
+                  <table class="pnl-matrix cost-matrix" id="costVarianceMatrix" aria-label="Cost variance matrix"></table>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="dashboard-page" id="profitPage" data-page-panel="profit">
+          <section class="section-block">
+            <div class="chart-grid two-columns">
+              <article class="chart-card">
+                <h3>%GM VS %EBIT BY MONTH</h3>
+                <p class="chart-unit">Unit: %</p>
+                <div class="chart-frame"><canvas id="profitMarginTrendChart"></canvas></div>
+              </article>
+
+              <article class="chart-card profitability-analysis-card">
+                <h3>GM BY CHANNEL</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout">
+                  <div class="revenue-donut-frame"><canvas id="gmByChannelChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="gmChannelTable" aria-label="Gross margin by channel details"></table>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-block">
+            <div class="chart-grid two-columns">
+              <article class="chart-card profitability-analysis-card">
+                <h3>GM BY REGION</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout">
+                  <div class="revenue-donut-frame"><canvas id="gmByRegionChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="gmRegionTable" aria-label="Gross margin by region details"></table>
+                  </div>
+                </div>
+              </article>
+
+              <article class="chart-card profitability-analysis-card">
+                <h3>GM BY CUSTOMER GROUP</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout">
+                  <div class="revenue-donut-frame"><canvas id="gmCustomerGroupChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="gmCustomerGroupTable" aria-label="Gross margin by customer group details"></table>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="section-block">
+            <div class="chart-grid two-columns">
+              <article class="chart-card profitability-analysis-card">
+                <h3>GM BY TOP 10 PRODUCTS</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="revenue-detail-layout wide-chart">
+                  <div class="revenue-bar-frame"><canvas id="gmTopProductChart"></canvas></div>
+                  <div class="mini-table-scroll">
+                    <table class="mini-table" id="gmProductTable" aria-label="Top product gross margin details"></table>
+                  </div>
+                </div>
+              </article>
+
+              <article class="chart-card">
+                <h3>PRODUCT PROFITABILITY</h3>
+                <p class="chart-unit">Unit: Billion VND / %</p>
+                <div class="chart-frame"><canvas id="productProfitabilityChart"></canvas></div>
+              </article>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
