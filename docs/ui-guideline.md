@@ -527,7 +527,17 @@ Minimum Width:
 1366px
 
 ---
+# Viewport Behavior
 
+The dashboard is designed for desktop landscape view.
+
+At 1920 x 1080 and 100% browser zoom:
+
+- Page 1 should fit within a single screen.
+- No vertical scrolling should be required.
+- KPI cards should remain in one row.
+- Chart cards should reduce height proportionally to fit the viewport.
+- Filters may use compact width and height to preserve chart space.
 # Animation
 
 Hover Effect:

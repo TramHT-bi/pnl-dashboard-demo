@@ -156,9 +156,30 @@ Style:
 - Modern
 - Corporate
 - Power BI Inspired
+# Time-based Chart Filtering Logic
 
-Filter cho Ngày:
-- Dạng chọn ngày from...to...
+For charts that display data by month, the x-axis must always show the full year from January to December.
+
+When the user selects a specific Month filter:
+
+- Current Year / Actual series must display data from January up to the selected month only.
+- Months after the selected month must be blank for Current Year / Actual series.
+- Last Year series must continue to display full-year data from January to December.
+- Plan series must continue to display full-year data from January to December.
+
+Example:
+
+If Month = May:
+
+- Current Year Revenue: show Jan to May only, Jun to Dec blank.
+- Last Year Revenue: show Jan to Dec.
+- Plan Revenue: show Jan to Dec.
+
+This rule applies to time-based charts such as:
+
+- Revenue Trend
+- Gross Profit Trend
+- Actual Revenue vs Plan Revenue
 ---
 
 # Deliverables
